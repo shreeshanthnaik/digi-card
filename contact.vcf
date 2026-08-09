@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Shreeshanth S Naik
+N:Last Name;First Name;;;
+ORG:Your Company
+TITLE:Developer & Tech Enthusiast
+TEL;TYPE=CELL:+1-000-000-0000
+EMAIL;TYPE=WORK:you@example.com
+URL:https://yourportfolio.com
+X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/your_personal
+X-SOCIALPROFILE;TYPE=linkedin:https://linkedin.com/in/yourprofile
+X-SOCIALPROFILE;TYPE=github:https://github.com/yourusername
+END:VCARD

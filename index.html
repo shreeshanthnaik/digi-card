@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Business Card</title>
+  <meta name="description" content="Professional digital business card — connect, collaborate, and get in touch." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+       USER DATA — Edit everything in this block to personalise
+       ============================================================ -->
+  <script>
+    const CARD = {
+      // ── Profile ─────────────────────────────────────────────
+      name:       "Your Full Name",
+      tagline:    "Developer & Tech Enthusiast",
+      avatar:     "avatar.png",            // swap with your photo filename
+
+      // ── About ───────────────────────────────────────────────
+      bio: "Passionate software developer with 3+ years of experience crafting digital experiences. I love open-source, clean code, and building tools that make life a little easier for everyone.",
+
+      // ── Contact ─────────────────────────────────────────────
+      email:   "you@example.com",
+      phone:   "+1 000 000 0000",
+      vcfFile: "contact.vcf",
+
+      // ── Social Links ─────────────────────────────────────────
+      social: [
+        {
+          label:    "Personal Instagram",
+          url:      "https://instagram.com/your_personal",
+          icon:     "instagram",
+          color:    "linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)",
+          category: "personal",
+        },
+        {
+          label:    "Work Instagram",
+          url:      "https://instagram.com/your_work",
+          icon:     "instagram",
+          color:    "linear-gradient(135deg,#405DE6,#5851DB,#833AB4,#C13584,#E1306C)",
+          category: "work",
+        },
+        {
+          label:    "LinkedIn",
+          url:      "https://linkedin.com/in/yourprofile",
+          icon:     "linkedin",
+          color:    "linear-gradient(135deg,#0077b5,#00a0dc)",
+          category: "professional",
+        },
+        {
+          label:    "GitHub",
+          url:      "https://github.com/yourusername",
+          icon:     "github",
+          color:    "linear-gradient(135deg,#24292e,#586069)",
+          category: "professional",
+        },
+        {
+          label:    "Portfolio",
+          url:      "https://yourportfolio.com",
+          icon:     "globe",
+          color:    "linear-gradient(135deg,#6c63ff,#3ecfcf)",
+          category: "professional",
+        },
+      ],
+
+      // ── Featured Work ────────────────────────────────────────
+      featured: [
+        {
+          title:       "Project Alpha",
+          description: "A full-stack web app that streamlines team collaboration with real-time updates and smart notifications.",
+          url:         "https://github.com/yourusername/project-alpha",
+        },
+        {
+          title:       "Open-Source CLI Tool",
+          description: "A developer utility for automated deployment pipelines, trusted by 500+ engineers worldwide.",
+          url:         "https://github.com/yourusername/cli-tool",
+        },
+        {
+          title:       "Design System",
+          description: "A comprehensive UI component library built in React, featuring dark mode and accessibility by default.",
+          url:         "https://yourportfolio.com/design-system",
+        },
+      ],
+    };
+  </script>
+  <!-- ============================================================ -->
+
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-1:         #0a0c14;
+      --glass-bg:     rgba(255,255,255,0.05);
+      --glass-border: rgba(255,255,255,0.10);
+      --glass-hover:  rgba(255,255,255,0.09);
+      --accent-1:     #7c6df0;
+      --accent-2:     #3ecfcf;
+      --text-primary: #f0f0ff;
+      --text-muted:   #9ba3c0;
+      --radius-card:  20px;
+      --radius-btn:   14px;
+      --shadow-card:  0 8px 32px rgba(0,0,0,0.45);
+      --shadow-glow:  0 0 40px rgba(124,109,240,0.18);
+      --ease:         0.22s cubic-bezier(0.4,0,0.2,1);
+      --max-w:        440px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-1);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 60px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated glow orbs ───────────────────────────────────── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-purple {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, #7c6df0, transparent 70%);
+      top: -130px; left: -130px;
+      animation: float-purple 16s ease-in-out infinite alternate;
+    }
+    .orb-cyan {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, #3ecfcf, transparent 70%);
+      bottom: -100px; right: -100px;
+      animation: float-cyan 20s ease-in-out infinite alternate;
+    }
+    .orb-pink {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #e040fb, transparent 70%);
+      top: 50%; right: -80px;
+      animation: float-pink 13s ease-in-out infinite alternate;
+      opacity: 0.12;
+    }
+    @keyframes float-purple { to { transform: translate(70px, 90px) scale(1.18); } }
+    @keyframes float-cyan   { to { transform: translate(-60px, -70px) scale(1.12); } }
+    @keyframes float-pink   { to { transform: translate(-40px, -50px) scale(1.1); } }
+
+    /* ── Page wrapper ─────────────────────────────────────────── */
+    .page {
+      position: relative; z-index: 1;
+      width: 100%; max-width: var(--max-w);
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    /* ── Glass card ─────────────────────────────────────────── */
+    .card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-card);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      box-shadow: var(--shadow-card), var(--shadow-glow);
+      padding: 28px 24px;
+      transition: box-shadow var(--ease), transform var(--ease);
+    }
+
+    /* ── Profile ─────────────────────────────────────────────── */
+    .profile { text-align: center; padding: 36px 24px 30px; }
+
+    .avatar-wrap {
+      position: relative; display: inline-block; margin-bottom: 20px;
+    }
+    .avatar-ring {
+      position: absolute; inset: -4px; border-radius: 50%;
+      background: conic-gradient(var(--accent-1), var(--accent-2), #e040fb, var(--accent-1));
+      z-index: 0;
+      animation: spin-ring 5s linear infinite;
+    }
+    .avatar-ring::after {
+      content: ''; position: absolute; inset: 3px; border-radius: 50%;
+      background: var(--bg-1);
+    }
+    @keyframes spin-ring { to { transform: rotate(360deg); } }
+
+    .avatar {
+      position: relative; z-index: 1;
+      width: 114px; height: 114px; border-radius: 50%;
+      object-fit: cover; border: 3px solid var(--bg-1);
+      display: block;
+    }
+    .online-dot {
+      position: absolute; bottom: 7px; right: 7px; z-index: 2;
+      width: 16px; height: 16px; background: #22d55a;
+      border-radius: 50%; border: 2.5px solid var(--bg-1);
+      animation: pulse-dot 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { box-shadow: 0 0 0 0 rgba(34,213,90,0.5); }
+      50%      { box-shadow: 0 0 0 8px rgba(34,213,90,0); }
+    }
+
+    .profile-name {
+      font-size: 1.7rem; font-weight: 800; letter-spacing: -0.6px;
+      background: linear-gradient(135deg, #fff 30%, var(--accent-2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 7px;
+    }
+    .profile-tagline {
+      font-size: 0.88rem; color: var(--text-muted);
+      font-weight: 400; letter-spacing: 0.4px;
+    }
+
+    /* ── Save Contact button ─────────────────────────────────── */
+    .btn-save {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px;
+      border-radius: var(--radius-btn);
+      background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+      color: #fff; font-family: 'Inter', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.2px;
+      border: none; cursor: pointer;
+      box-shadow: 0 4px 28px rgba(124,109,240,0.5);
+      transition: transform var(--ease), box-shadow var(--ease), filter var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .btn-save::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), transparent);
+      opacity: 0; transition: opacity var(--ease);
+    }
+    .btn-save:hover {
+      transform: translateY(-2px) scale(1.016);
+      box-shadow: 0 8px 36px rgba(124,109,240,0.65);
+      filter: brightness(1.08);
+    }
+    .btn-save:hover::before { opacity: 1; }
+    .btn-save:active { transform: scale(0.97); }
+
+    /* ── Section label ───────────────────────────────────────── */
+    .section-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.8px; color: var(--text-muted);
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--glass-border);
+    }
+
+    /* ── Social grid ─────────────────────────────────────────── */
+    .social-grid { display: flex; flex-direction: column; gap: 10px; }
+
+    .btn-social {
+      display: flex; align-items: center; gap: 13px;
+      padding: 13px 16px; border-radius: var(--radius-btn);
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      color: var(--text-primary); text-decoration: none;
+      font-size: 0.92rem; font-weight: 500; font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: transform var(--ease), background var(--ease),
+                  border-color var(--ease), box-shadow var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .btn-social .icon-wrap {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .btn-social .btn-label { flex: 1; }
+    .category-tag {
+      font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.9px; color: rgba(255,255,255,0.35);
+      margin-right: 4px;
+    }
+    .btn-arrow { opacity: 0.35; transition: transform var(--ease), opacity var(--ease); }
+    .btn-social:hover {
+      background: var(--glass-hover);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
+    .btn-social:hover .btn-arrow { transform: translateX(3px); opacity: 0.9; }
+    .btn-social:active { transform: scale(0.97); }
+
+    /* ── Bio ─────────────────────────────────────────────────── */
+    .bio-text {
+      font-size: 0.91rem; line-height: 1.8; color: var(--text-muted);
+    }
+
+    /* ── Featured work ───────────────────────────────────────── */
+    .featured-grid { display: flex; flex-direction: column; gap: 12px; }
+
+    .work-card {
+      background: rgba(255,255,255,0.025); border: 1px solid var(--glass-border);
+      border-radius: 14px; padding: 18px;
+      transition: border-color var(--ease), background var(--ease), transform var(--ease);
+    }
+    .work-card:hover {
+      border-color: rgba(124,109,240,0.45);
+      background: rgba(124,109,240,0.07);
+      transform: translateY(-2px);
+    }
+    .work-card-title {
+      font-size: 0.97rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;
+    }
+    .work-card-desc {
+      font-size: 0.84rem; color: var(--text-muted); line-height: 1.68; margin-bottom: 14px;
+    }
+    .btn-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 9px;
+      background: rgba(124,109,240,0.14); border: 1px solid rgba(124,109,240,0.3);
+      color: var(--accent-1); font-size: 0.8rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; text-decoration: none;
+      transition: background var(--ease), border-color var(--ease), transform var(--ease);
+    }
+    .btn-link:hover {
+      background: rgba(124,109,240,0.28); border-color: var(--accent-1); transform: translateY(-1px);
+    }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    .footer {
+      text-align: center; font-size: 0.73rem;
+      color: rgba(155,163,192,0.4); padding-top: 4px;
+    }
+
+    /* ── Icons ────────────────────────────────────────────── */
+    .ico    { width: 18px; height: 18px; fill: #fff; flex-shrink: 0; vertical-align: middle; }
+    .ico-lg { width: 21px; height: 21px; fill: #fff; flex-shrink: 0; }
+
+    /* ── Ripple ───────────────────────────────────────────── */
+    .ripple-host { position: relative; overflow: hidden; }
+    .ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transform: scale(0); animation: ripple-go 0.55s linear forwards;
+      pointer-events: none;
+    }
+    @keyframes ripple-go { to { transform: scale(5); opacity: 0; } }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 360px) {
+      .profile-name { font-size: 1.42rem; }
+      .btn-save     { font-size: 0.93rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Glow orbs -->
+<div class="orb orb-purple" aria-hidden="true"></div>
+<div class="orb orb-cyan"   aria-hidden="true"></div>
+<div class="orb orb-pink"   aria-hidden="true"></div>
+
+<!-- Inline SVG icons sprite -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-instagram" viewBox="0 0 24 24">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+  </symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+  </symbol>
+  <symbol id="i-github" viewBox="0 0 24 24">
+    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+  </symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <path d="M12 0C5.374 0 0 5.373 0 12c0 6.628 5.374 12 12 12s12-5.372 12-12S18.626 0 12 0zm-1.25 2.08v4.17c-.55-.13-1.08-.3-1.58-.52.4-.97.85-1.86 1.35-2.65.08-.34.15-.67.23-1zm2.5 0c.08.33.15.66.23 1 .5.79.95 1.68 1.35 2.65-.5.22-1.03.39-1.58.52V2.08zM8.34 3.1c-.4.87-.74 1.82-1.01 2.83-.7-.36-1.34-.79-1.89-1.28.84-.64 1.78-1.16 2.9-1.55zM15.66 3.1c1.12.39 2.06.91 2.9 1.55-.55.49-1.19.92-1.89 1.28-.27-1.01-.61-1.96-1.01-2.83zM3.74 5.96c.7.56 1.51 1.05 2.4 1.44-.16.83-.25 1.69-.28 2.56H2.08c.13-1.49.72-2.87 1.66-4zm16.52 0c.94 1.13 1.53 2.51 1.66 4h-3.78c-.03-.87-.12-1.73-.28-2.56.89-.39 1.7-.88 2.4-1.44zM2.08 12h3.78c.02.87.1 1.73.26 2.56-.89.39-1.7.88-2.39 1.44C2.79 14.87 2.2 13.49 2.08 12zm5.28 0h9.28c-.02.9-.1 1.77-.26 2.6-.7-.2-1.42-.35-2.16-.43a15.3 15.3 0 0 0-2.22-.17c-.77 0-1.52.06-2.24.17-.73.08-1.44.23-2.14.43-.16-.83-.24-1.7-.26-2.6zm11.86 0h3.78c-.12 1.49-.71 2.87-1.65 4-.69-.56-1.5-1.05-2.39-1.44.16-.83.24-1.69.26-2.56zM5.88 15.59c.69.2 1.4.35 2.12.43-.05.74-.07 1.48-.07 2.22 0 .43.01.86.03 1.29-.74-.53-1.4-1.15-1.96-1.86-.06-.69-.1-1.39-.12-2.08zm12.24 0c-.02.69-.06 1.39-.12 2.08-.56.71-1.22 1.33-1.96 1.86.02-.43.03-.86.03-1.29 0-.74-.02-1.48-.07-2.22.72-.08 1.43-.23 2.12-.43zM9.5 16.1c.82-.1 1.66-.15 2.5-.15s1.68.05 2.5.15c.05.62.08 1.25.08 1.9 0 .5-.01 1-.04 1.48-.8.3-1.65.46-2.54.46-.89 0-1.74-.16-2.54-.46-.03-.48-.04-.98-.04-1.48 0-.65.03-1.28.08-1.9zm-1.16 4.73c.73.26 1.5.42 2.32.5v1.59c-.95-.15-1.85-.43-2.68-.83.09-.42.2-.83.36-1.26zm6.32 0c.16.43.27.84.36 1.26-.83.4-1.73.68-2.68.83v-1.59c.82-.08 1.59-.24 2.32-.5z"/>
+  </symbol>
+  <symbol id="i-download" viewBox="0 0 24 24">
+    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24">
+    <path d="M10 6L16 12L10 18V6Z"/>
+  </symbol>
+  <symbol id="i-external" viewBox="0 0 24 24">
+    <path d="M14 3h7v7l-2.7-2.7-6.6 6.6-1.4-1.4 6.6-6.6L14 3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/>
+  </symbol>
+</svg>
+
+<div class="page">
+
+  <!-- Profile card -->
+  <div class="card profile">
+    <div class="avatar-wrap">
+      <div class="avatar-ring" aria-hidden="true"></div>
+      <img id="avatar-img" class="avatar" src="avatar.png" alt="Profile photo" />
+      <div class="online-dot" title="Available"></div>
+    </div>
+    <h1 class="profile-name" id="profile-name">Loading…</h1>
+    <p  class="profile-tagline" id="profile-tagline"></p>
+  </div>
+
+  <!-- Save Contact -->
+  <a id="save-btn" class="btn-save ripple-host" href="contact.vcf" download="contact.vcf">
+    <svg class="ico-lg" aria-hidden="true"><use href="#i-download"/></svg>
+    Save Contact
+  </a>
+
+  <!-- Social links -->
+  <div class="card">
+    <div class="section-label" role="heading" aria-level="2">Connect</div>
+    <div class="social-grid" id="social-grid" role="list"></div>
+  </div>
+
+  <!-- About -->
+  <div class="card">
+    <div class="section-label" role="heading" aria-level="2">About</div>
+    <p class="bio-text" id="bio-text"></p>
+  </div>
+
+  <!-- Featured Work -->
+  <div class="card">
+    <div class="section-label" role="heading" aria-level="2">Featured Work</div>
+    <div class="featured-grid" id="featured-grid"></div>
+  </div>
+
+  <footer class="footer" id="footer"></footer>
+
+</div><!-- /.page -->
+
+<script>
+(function () {
+  "use strict";
+  var C = CARD;
+
+  /* ─ Page meta ─ */
+  document.title = C.name + " — Digital Card";
+
+  /* ─ Profile ─ */
+  document.getElementById("profile-name").textContent    = C.name;
+  document.getElementById("profile-tagline").textContent = C.tagline;
+  var av = document.getElementById("avatar-img");
+  av.src = C.avatar;
+  av.alt = C.name + " profile photo";
+
+  /* ─ Save Contact button ─ */
+  var sb = document.getElementById("save-btn");
+  sb.href = C.vcfFile;
+  sb.setAttribute("download", C.vcfFile);
+
+  /* ─ Social links ─ */
+  var grid = document.getElementById("social-grid");
+  C.social.forEach(function (s) {
+    var a = document.createElement("a");
+    a.href      = s.url;
+    a.target    = "_blank";
+    a.rel       = "noopener noreferrer";
+    a.className = "btn-social ripple-host";
+    a.setAttribute("role", "listitem");
+    a.setAttribute("aria-label", s.label);
+
+    var wrap = document.createElement("div");
+    wrap.className = "icon-wrap";
+    wrap.style.background = s.color;
+    wrap.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-' + s.icon + '"/></svg>';
+
+    var lbl = document.createElement("span");
+    lbl.className = "btn-label";
+    lbl.textContent = s.label;
+
+    var cat = document.createElement("span");
+    cat.className = "category-tag";
+    cat.setAttribute("aria-hidden", "true");
+    cat.textContent = s.category;
+
+    var arr = document.createElement("span");
+    arr.className = "btn-arrow";
+    arr.setAttribute("aria-hidden", "true");
+    arr.innerHTML = '<svg class="ico"><use href="#i-arrow-right"/></svg>';
+
+    a.appendChild(wrap);
+    a.appendChild(lbl);
+    a.appendChild(cat);
+    a.appendChild(arr);
+    grid.appendChild(a);
+  });
+
+  /* ─ Bio ─ */
+  document.getElementById("bio-text").textContent = C.bio;
+
+  /* ─ Featured Work ─ */
+  var fg = document.getElementById("featured-grid");
+  C.featured.forEach(function (w) {
+    var card = document.createElement("article");
+    card.className = "work-card";
+    card.innerHTML =
+      '<h3 class="work-card-title">' + w.title + '</h3>' +
+      '<p  class="work-card-desc">'  + w.description + '</p>' +
+      '<a  class="btn-link" href="'  + w.url + '" target="_blank" rel="noopener noreferrer">' +
+      '<svg class="ico" aria-hidden="true"><use href="#i-external"/></svg> View Project</a>';
+    fg.appendChild(card);
+  });
+
+  /* ─ Footer ─ */
+  document.getElementById("footer").innerHTML =
+    "&copy; " + new Date().getFullYear() + " " + C.name;
+
+  /* ─ Ripple on click ─ */
+  document.querySelectorAll(".ripple-host").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      var r   = this.getBoundingClientRect();
+      var sz  = Math.max(r.width, r.height);
+      var rip = document.createElement("span");
+      rip.className = "ripple";
+      rip.style.cssText = "width:" + sz + "px;height:" + sz + "px;" +
+        "left:" + (e.clientX - r.left - sz / 2) + "px;" +
+        "top:"  + (e.clientY - r.top  - sz / 2) + "px";
+      this.appendChild(rip);
+      setTimeout(function () { rip.remove(); }, 600);
+    });
+  });
+}());
+</script>
+</body>
+</html>
