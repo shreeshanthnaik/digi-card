@@ -12,10 +12,10 @@
   <!-- ============================================================
        USER DATA — Edit everything in this block to personalise
        ============================================================ -->
- <script>
+  <script>
     const CARD = {
       // ── Profile ─────────────────────────────────────────────
-      name:       "Shreeshanth S Naik",
+      name:       "Shreeshanth Naik",
       tagline:    "Developer & Tech Enthusiast",
       avatar:     "avatar.png",            // swap with your photo filename
 
@@ -23,36 +23,36 @@
       bio: "Passionate software developer with 3+ years of experience crafting digital experiences. I love open-source, clean code, and building tools that make life a little easier for everyone.",
 
       // ── Contact ─────────────────────────────────────────────
-      email:   "shreeshanthnaik@gmail.com",
-      phone:   "+91 8217240960",
+      email:   "you@example.com",
+      phone:   "+1 000 000 0000",
       vcfFile: "contact.vcf",
 
       // ── Social Links ─────────────────────────────────────────
       social: [
         {
           label:    "Personal Instagram",
-          url:      "https://www.instagram.com/shreeshanth.naik/",
+          url:      "https://instagram.com/your_personal",
           icon:     "instagram",
           color:    "linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)",
           category: "personal",
         },
         {
           label:    "Work Instagram",
-          url:      "https://www.instagram.com/shreeartx/",
+          url:      "https://instagram.com/your_work",
           icon:     "instagram",
           color:    "linear-gradient(135deg,#405DE6,#5851DB,#833AB4,#C13584,#E1306C)",
           category: "work",
         },
         {
           label:    "LinkedIn",
-          url:      "https://www.linkedin.com/in/shreeshanth-naik-195b83209/",
+          url:      "https://linkedin.com/in/yourprofile",
           icon:     "linkedin",
           color:    "linear-gradient(135deg,#0077b5,#00a0dc)",
           category: "professional",
         },
         {
           label:    "GitHub",
-          url:      "https://github.com/shreeshanthnaik",
+          url:      "https://github.com/yourusername",
           icon:     "github",
           color:    "linear-gradient(135deg,#24292e,#586069)",
           category: "professional",
@@ -378,10 +378,10 @@
   </div>
 
   <!-- Save Contact -->
-  <a id="save-btn" class="btn-save ripple-host" href="contact.vcf" download="contact.vcf">
+  <button id="save-btn" class="btn-save ripple-host" type="button" aria-label="Save contact to phone">
     <svg class="ico-lg" aria-hidden="true"><use href="#i-download"/></svg>
-    Save Contact
-  </a>
+    📇 Save Contact
+  </button>
 
   <!-- Social links -->
   <div class="card">
@@ -416,10 +416,25 @@
   av.src = C.avatar;
   av.alt = C.name + " profile photo";
 
-  /* ─ Save Contact button ─ */
-  var sb = document.getElementById("save-btn");
-  sb.href = C.vcfFile;
-  sb.setAttribute("download", C.vcfFile);
+  /* ─ Save Contact button — vCard Data URI → native Add Contact screen ─ */
+  document.getElementById("save-btn").addEventListener("click", function () {
+    var vcardData = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      "FN:" + C.name,
+      "TEL;TYPE=CELL:" + C.phone,
+      "END:VCARD"
+    ].join("\n");
+
+    var dataUri = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcardData);
+
+    try {
+      window.location.href = dataUri;
+    } catch (err) {
+      /* Fallback: open phone dialer if Data URI navigation is blocked */
+      window.location.href = "tel:" + C.phone;
+    }
+  });
 
   /* ─ Social links ─ */
   var grid = document.getElementById("social-grid");
