@@ -2,10 +2,10 @@ BEGIN:VCARD
 VERSION:3.0
 FN:Shreeshanth S Naik
 N:Last Name;First Name;;;
-ORG:Your Company
+ORG:NAIK INDUSTRIES
 TITLE:Developer & Tech Enthusiast
-TEL;TYPE=CELL:+1-000-000-0000
-EMAIL;TYPE=WORK:you@example.com
+TEL;TYPE=CELL:+91 8217240960
+EMAIL;TYPE=PERSNOAL:shreeshanthnaik@gmail.com
 URL:https://yourportfolio.com
 X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/your_personal
 X-SOCIALPROFILE;TYPE=linkedin:https://linkedin.com/in/yourprofile
